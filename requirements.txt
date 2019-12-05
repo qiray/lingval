@@ -1,1 +1,4 @@
 nltk
+wordcloud
+stop_words
+pymorphy2
