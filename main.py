@@ -6,6 +6,7 @@ import nltk
 
 import tokenizer
 import make_wordcloud
+import common_data
 
 # TODO-list
 # TODO:
@@ -45,7 +46,10 @@ def read_file(filename):
 def main():
     """Main function"""
     text = read_file(sys.argv[1])
-    make_wordcloud.make_wordcloud(text, '1.png')
+    # print(tokenizer.preprocess_text(text))
+    # print(' '.join(tokenizer.preprocess_text(text)))
+    print(common_data.get_common_data(text))
+    # make_wordcloud.make_wordcloud(text, '1.png')
     # make_wordcloud.make_wordcloud(' '.join(tokenizer.preprocess_text(text)), '2.png')
 
 if __name__ == '__main__':

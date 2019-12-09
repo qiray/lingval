@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# import matplotlib.pyplot as plt # TODO: find why these imports are necessary in Fedora 29. A bug?
 from wordcloud import WordCloud
-# from gensim import corpora, models # this too
 
 import tokenizer
 
