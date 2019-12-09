@@ -1,4 +1,4 @@
 nltk
 wordcloud
 stop_words
-pymorphy2
+pymystem3

@@ -10,9 +10,8 @@ import common_data
 
 # TODO-list
 # TODO:
-# common data - text length, words and lines count
 # nltk collocations
-# wordclouds and top words
+# top words
 # part of speech analysis
 # sentences analysis - count
 # topic analysis
@@ -40,17 +39,15 @@ def check_nltk_package(findname, downloadname):
         nltk.download(downloadname)
 
 def read_file(filename):
-    with open(filename, 'r') as myfile:
+    with open(filename, 'r', encoding='utf-8') as myfile:
         return myfile.read()
 
 def main():
     """Main function"""
     text = read_file(sys.argv[1])
-    # print(tokenizer.preprocess_text(text))
-    # print(' '.join(tokenizer.preprocess_text(text)))
     print(common_data.get_common_data(text))
-    # make_wordcloud.make_wordcloud(text, '1.png')
-    # make_wordcloud.make_wordcloud(' '.join(tokenizer.preprocess_text(text)), '2.png')
+    make_wordcloud.make_wordcloud(text, '1.png')
+    make_wordcloud.make_wordcloud(' '.join(tokenizer.preprocess_text(text)), '2.png')
 
 if __name__ == '__main__':
     check_nltk_package('corpora/stopwords', 'stopwords')
