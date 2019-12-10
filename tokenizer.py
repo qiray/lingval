@@ -18,6 +18,7 @@ def preprocess_text(text, remove_stopwords=False):
     mystem = Mystem() #Create lemmatizer
     tokens = mystem.lemmatize(text.lower())
     if remove_stopwords:
-        tokens = [token for token in tokens if token not in get_russian_stopwords()\
+        stopwords = get_russian_stopwords()
+        tokens = [token for token in tokens if token not in stopwords\
             and token != " " and token.strip() not in string.punctuation]
     return tokens

@@ -10,10 +10,11 @@ import common_data
 
 # TODO-list
 # TODO:
+# parallel work
+# print results as tables with normal names + csv files
 # nltk collocations
-# top words
 # part of speech analysis
-# sentences analysis - count
+# sentences analysis - count, length, max length etc.
 # topic analysis
 # dialogs (?)
 # Sentiment analysis (?)
@@ -46,8 +47,10 @@ def main():
     """Main function"""
     text = read_file(sys.argv[1])
     print(common_data.get_common_data(text))
-    make_wordcloud.make_wordcloud(text, '1.png')
-    make_wordcloud.make_wordcloud(' '.join(tokenizer.preprocess_text(text)), '2.png')
+    tokens = tokenizer.preprocess_text(text, True)
+    print(common_data.get_top_words(tokens))
+    # make_wordcloud.make_wordcloud(text, '1.png')
+    # make_wordcloud.make_wordcloud(' '.join(tokens), '2.png')
 
 if __name__ == '__main__':
     check_nltk_package('corpora/stopwords', 'stopwords')
