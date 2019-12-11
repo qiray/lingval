@@ -6,19 +6,20 @@ import nltk
 
 import tokenizer
 import make_wordcloud
-import common_data
+import common
 
 # TODO-list
 # TODO:
 # parallel work
-# print results as tables with normal names + csv files
-# nltk collocations
-# part of speech analysis
+# Save results in csv files?
+# part of speech - percentage and correct names
 # sentences analysis - count, length, max length etc.
 # topic analysis
 # dialogs (?)
 # Sentiment analysis (?)
 # different words count
+# Use Cython?
+# Translations?
 
 # https://proglib.io/p/fun-nlp
 # https://zen.yandex.ru/media/id/5b5ef1021a66a400a9961af1/vvedenie-v-obrabotku-jivogo-iazyka-s-pomosciu-python-36-i-nltk-chast-2-analiz-teksta-na-kliuchevye-slova-regexp-5ce2ad76b3217a00b3887fa9
@@ -45,14 +46,24 @@ def read_file(filename):
 
 def main():
     """Main function"""
+    if len(sys.argv) < 2:
+        print("Missing filename!")
+        sys.exit(1)
     text = read_file(sys.argv[1])
-    print(common_data.get_common_data(text))
-    tokens = tokenizer.preprocess_text(text, True)
-    print(common_data.get_top_words(tokens))
+    # print(common.get_pos_data(text))
+    # headers, common_data = common.get_pos_data(text)
+    # common.print_table("POS analysis", headers, common_data)
+    # headers, common_data = common.get_common_data(text)
+    # common.print_table("Common data:", headers, [common_data])
+    # tokens = tokenizer.preprocess_text(text, True)
+    # print(common.get_collocations(tokens))
+    # headers, common_data = common.get_top_words(tokens)
+    # common.print_table("Top words:", headers, common_data)
     # make_wordcloud.make_wordcloud(text, '1.png')
     # make_wordcloud.make_wordcloud(' '.join(tokens), '2.png')
 
 if __name__ == '__main__':
     check_nltk_package('corpora/stopwords', 'stopwords')
     check_nltk_package('tokenizers/punkt', 'punkt')
+    check_nltk_package('taggers/averaged_perceptron_tagger_ru/averaged_perceptron_tagger_ru.pickle', 'averaged_perceptron_tagger_ru')
     main()
