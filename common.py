@@ -27,14 +27,14 @@ def get_collocations(tokens, count=10):
     colls = finder.nbest(bigram_measures.likelihood_ratio, count)
     return colls
 
-def get_pos_data(text):
-    data = pos_tag(word_tokenize(text), lang='rus')
+def get_pos_data(tokens):
+    data = pos_tag(tokens, lang='rus')
     counts = Counter(tag for word, tag in data)
     total = sum(counts.values())
     # print(dict((word, float(count)/total) for word,count in counts.items()))
     result = dict((word, count) for word,count in counts.items())
     sorted_counts = sorted(result.items(), key=itemgetter(1), reverse=True)
-    headers = ["POS", "Count"]
+    headers = ["POS", "Count", "Percentage"]
     return headers, sorted_counts
 
 def print_table(title, headers, data):
