@@ -10,7 +10,7 @@ from nltk import word_tokenize, sent_tokenize, collocations, pos_tag
 def get_common_data(text):
     # return lines, sentences, words, symbols without spaces, symbols
     headers = ["Lines", "Sentences", "Words", "Symbols without spaces", "Total symbols"]
-    return headers, [len(text.split('\n')), len(sent_tokenize(text)), len(word_tokenize(text)), len(text) - text.count(' '), len(text)]
+    return headers, [len(text.split('\n')), len(sent_tokenize(text, language="russian")), len(word_tokenize(text, language="russian")), len(text) - text.count(' '), len(text)]
 
 def get_top_words(words, top_count=20):
     pattern = re.compile("^[a-zA-Zа-яА-Я0-9_]+$")
@@ -31,11 +31,19 @@ def get_pos_data(tokens):
     data = pos_tag(tokens, lang='rus')
     counts = Counter(tag for word, tag in data)
     total = sum(counts.values())
-    # print(dict((word, float(count)/total) for word,count in counts.items()))
-    result = dict((word, count) for word,count in counts.items())
-    sorted_counts = sorted(result.items(), key=itemgetter(1), reverse=True)
+    result = list((word, count, float(count)/total) for word,count in counts.items())
+    sorted_counts = sorted(result, key=itemgetter(1), reverse=True)
     headers = ["POS", "Count", "Percentage"]
     return headers, sorted_counts
+
+def get_sentences_data(text):
+    sentences = sent_tokenize(text, language="russian")
+    words = [len(word_tokenize(x, language="russian")) for x in sentences]
+    headers = ["Sentences", "Max words", "Min words"]
+    max_words = max(words)
+    min_words = min(words)
+    max_sent = sentences[words.index(max_words)]
+    return headers, [len(sentences), max_words, min_words], max_sent
 
 def print_table(title, headers, data):
     if title:

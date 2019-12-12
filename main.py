@@ -12,8 +12,8 @@ import common
 # TODO:
 # parallel work
 # Save results in csv files?
-# part of speech - percentage and correct names
-# sentences analysis - count, length, max length etc.
+# part of speech - correct names
+# sentences average, mediana, moda
 # topic analysis
 # dialogs (?)
 # Sentiment analysis (?)
@@ -51,13 +51,21 @@ def main():
         sys.exit(1)
     text = read_file(sys.argv[1])
     # tokens = tokenizer.preprocess_text(text, True)
-    # headers, common_data = common.get_pos_data(tokens)
-    # common.print_table("POS analysis", headers, common_data)
-    # headers, common_data = common.get_common_data(text)
-    # common.print_table("Common data:", headers, [common_data])
+
+    # headers, data = common.get_common_data(text)
+    # common.print_table("Common data:", headers, [data])
+
+    # headers, data = common.get_pos_data(tokens)
+    # common.print_table("POS analysis", headers, data)
+
+    # headers, data, max_sent = common.get_sentences_data(text)
+    # common.print_table("Sentences analysis", headers, [data])
+    # print ("Longest sentence:\n", max_sent)
+
     # print(common.get_collocations(tokens))
-    # headers, common_data = common.get_top_words(tokens)
-    # common.print_table("Top words:", headers, common_data)
+
+    # headers, data = common.get_top_words(tokens)
+    # common.print_table("Top words:", headers, data)
     # make_wordcloud.make_wordcloud(text, '1.png')
     # make_wordcloud.make_wordcloud(' '.join(tokens), '2.png')
 
