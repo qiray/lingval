@@ -71,6 +71,5 @@ def main():
 if __name__ == '__main__':
     check_nltk_package('corpora/stopwords', 'stopwords')
     check_nltk_package('tokenizers/punkt', 'punkt')
-    check_nltk_package('tokenizers/punkt/PY3/russian.pickle', 'punkt')
     check_nltk_package('taggers/averaged_perceptron_tagger_ru/averaged_perceptron_tagger_ru.pickle', 'averaged_perceptron_tagger_ru')
     main()
