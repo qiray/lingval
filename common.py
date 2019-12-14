@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import re
+import statistics
 from collections import Counter
 from operator import itemgetter
 
@@ -39,11 +40,15 @@ def get_pos_data(tokens):
 def get_sentences_data(text):
     sentences = sent_tokenize(text, language="russian")
     words = [len(word_tokenize(x, language="russian")) for x in sentences]
-    headers = ["Sentences", "Max words", "Min words"]
+    headers = ["Sentences", "Max", "Average", "Median", "Mode"]
     max_words = max(words)
-    min_words = min(words)
     max_sent = sentences[words.index(max_words)]
-    return headers, [len(sentences), max_words, min_words], max_sent
+    try:
+        mode = statistics.mode(words)
+    except:
+        c = Counter(words)
+        mode = c.most_common(1)[0][0]
+    return headers, [len(sentences), max_words, statistics.mean(words), statistics.median(words), mode], max_sent
 
 def print_table(title, headers, data):
     if title:

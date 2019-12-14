@@ -3,7 +3,6 @@
 
 import string
 
-import pymorphy2
 from nltk.corpus import stopwords
 from stop_words import get_stop_words
 from pymystem3 import Mystem

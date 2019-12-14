@@ -12,8 +12,7 @@ import common
 # TODO:
 # parallel work
 # Save results in csv files?
-# part of speech - correct names
-# sentences average, mediana, moda
+# part of speech - correct russian names
 # topic analysis
 # dialogs (?)
 # Sentiment analysis (?)
@@ -50,27 +49,28 @@ def main():
         print("Missing filename!")
         sys.exit(1)
     text = read_file(sys.argv[1])
-    # tokens = tokenizer.preprocess_text(text, True)
+    tokens = tokenizer.preprocess_text(text, True)
 
-    # headers, data = common.get_common_data(text)
-    # common.print_table("Common data:", headers, [data])
+    headers, data = common.get_common_data(text)
+    common.print_table("Common data:", headers, [data])
 
-    # headers, data = common.get_pos_data(tokens)
-    # common.print_table("POS analysis", headers, data)
+    headers, data = common.get_pos_data(tokens)
+    common.print_table("POS analysis", headers, data)
 
-    # headers, data, max_sent = common.get_sentences_data(text)
-    # common.print_table("Sentences analysis", headers, [data])
-    # print ("Longest sentence:\n", max_sent)
+    headers, data, max_sent = common.get_sentences_data(text)
+    common.print_table("Sentences analysis", headers, [data])
+    print ("Longest sentence:\n", max_sent)
 
-    # print(common.get_collocations(tokens))
+    print("Collocations:\n", common.get_collocations(tokens))
 
-    # headers, data = common.get_top_words(tokens)
-    # common.print_table("Top words:", headers, data)
-    # make_wordcloud.make_wordcloud(text, '1.png')
-    # make_wordcloud.make_wordcloud(' '.join(tokens), '2.png')
+    headers, data = common.get_top_words(tokens)
+    common.print_table("Top words:", headers, data)
+    make_wordcloud.make_wordcloud(text, '1.png')
+    make_wordcloud.make_wordcloud(' '.join(tokens), '2.png')
 
 if __name__ == '__main__':
     check_nltk_package('corpora/stopwords', 'stopwords')
     check_nltk_package('tokenizers/punkt', 'punkt')
+    check_nltk_package('tokenizers/punkt/PY3/russian.pickle', 'punkt')
     check_nltk_package('taggers/averaged_perceptron_tagger_ru/averaged_perceptron_tagger_ru.pickle', 'averaged_perceptron_tagger_ru')
     main()
