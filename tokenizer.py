@@ -1,6 +1,7 @@
 
 # -*- coding: utf-8 -*-
 
+import re
 import string
 
 from nltk.corpus import stopwords
@@ -20,4 +21,5 @@ def preprocess_text(text, remove_stopwords=False):
         stopwords = get_russian_stopwords()
         tokens = [token for token in tokens if token not in stopwords\
             and token != " " and token.strip() not in string.punctuation]
-    return tokens
+    pattern = re.compile("^[a-zA-Zа-яА-Я0-9_]+$")
+    return [x for x in tokens if pattern.match(x)] # remove nonwords

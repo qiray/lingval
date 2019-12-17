@@ -4,19 +4,19 @@ import sys
 
 import nltk
 
-import tokenizer
-import make_wordcloud
 import common
+import nltk_analyze
+import make_wordcloud
+import tokenizer
 
 # TODO-list
 # TODO:
-# parallel work
-# Save results in csv files?
-# part of speech - correct russian names
-# topic analysis
+# Examples
+# parallel work (multiprocessing and locks for example)
+# Save results in csv files - output folder?
+# part of speech - correct names
 # dialogs (?)
 # Sentiment analysis (?)
-# different words count
 # Use Cython?
 # Translations?
 
@@ -51,20 +51,21 @@ def main():
     text = read_file(sys.argv[1])
     tokens = tokenizer.preprocess_text(text, True)
 
-    headers, data = common.get_common_data(text)
-    common.print_table("Common data:", headers, [data])
+    headers, data = nltk_analyze.get_common_data(text)
+    common.print_table("\nCommon data:\n", headers, [data])
 
-    headers, data = common.get_pos_data(tokens)
-    common.print_table("POS analysis", headers, data)
+    headers, data = nltk_analyze.get_pos_data(tokens)
+    common.print_table("\nPOS analysis\n", headers, data)
 
-    headers, data, max_sent = common.get_sentences_data(text)
-    common.print_table("Sentences analysis", headers, [data])
-    print ("Longest sentence:\n", max_sent)
+    headers, data, max_sent = nltk_analyze.get_sentences_data(text)
+    common.print_table("\nSentences analysis\n", headers, [data])
+    print ("\nLongest sentence:\n", max_sent)
 
-    print("Collocations:\n", common.get_collocations(tokens))
+    print("\nCollocations:\n", nltk_analyze.get_collocations(tokens))
 
-    headers, data = common.get_top_words(tokens)
-    common.print_table("Top words:", headers, data)
+    headers, data = nltk_analyze.get_top_words(tokens)
+    common.print_table("\nTop words:\n", headers, data)
+
     make_wordcloud.make_wordcloud(text, '1.png')
     make_wordcloud.make_wordcloud(' '.join(tokens), '2.png')
 
