@@ -38,7 +38,8 @@ def get_pos_data(tokens):
 
 def get_sentences_data(text):
     sentences = sent_tokenize(text, language="russian")
-    words = [len(word_tokenize(x, language="russian")) for x in sentences]
+    pattern = re.compile("[a-zA-Zа-яА-Я0-9_]+")
+    words = [len(pattern.findall(x)) for x in sentences]
     headers = ["Sentences", "Max", "Average", "Median", "Mode"]
     max_words = max(words)
     max_sent = sentences[words.index(max_words)]
