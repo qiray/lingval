@@ -40,29 +40,38 @@ def read_file(filename):
     with open(filename, 'r', encoding='utf-8') as myfile:
         return myfile.read()
 
+def common_data(text, tokens, lock):
+    headers, data = nltk_analyze.get_common_data(text)
+    common.print_table("\nCommon data:\n", headers, [data], lock)
+
+def pos_data(text, tokens, lock):
+    headers, data = nltk_analyze.get_pos_data(tokens)
+    common.print_table("\nPOS analysis\n", headers, data, lock)
+
+def sentences_data(text, tokens, lock):
+    headers, data, max_sent = nltk_analyze.get_sentences_data(text)
+    lock.acquire()
+    common.print_table("\nSentences analysis\n", headers, [data])
+    print ("\nLongest sentence:\n", max_sent)
+    lock.release()
+
+def collocations_data(text, tokens, lock):
+    lock.acquire()
+    print("\nCollocations:\n", nltk_analyze.get_collocations(tokens))
+    lock.release()
+
+def topwords_data(text, tokens, lock):
+    headers, data = nltk_analyze.get_top_words(tokens)
+    common.print_table("\nTop words:\n", headers, data, lock)
+
+def wordcloud_data(text, tokens, lock):
+    make_wordcloud.make_wordcloud(text, '1.png')
+    make_wordcloud.make_wordcloud(' '.join(tokens), '2.png')
+
+parse_functions = [common_data, pos_data, sentences_data, collocations_data, topwords_data, wordcloud_data]
+
 def parser(index, lock, text, tokens):
-    if index == 0: 
-        headers, data = nltk_analyze.get_common_data(text)
-        common.print_table("\nCommon data:\n", headers, [data], lock)
-    elif index == 1:
-        headers, data = nltk_analyze.get_pos_data(tokens)
-        common.print_table("\nPOS analysis\n", headers, data, lock)
-    elif index == 2:
-        headers, data, max_sent = nltk_analyze.get_sentences_data(text)
-        lock.acquire()
-        common.print_table("\nSentences analysis\n", headers, [data])
-        print ("\nLongest sentence:\n", max_sent)
-        lock.release()
-    elif index == 3:
-        lock.acquire()
-        print("\nCollocations:\n", nltk_analyze.get_collocations(tokens))
-        lock.release()
-    elif index == 4:
-        headers, data = nltk_analyze.get_top_words(tokens)
-        common.print_table("\nTop words:\n", headers, data, lock)
-    elif index == 5:
-        make_wordcloud.make_wordcloud(text, '1.png')
-        make_wordcloud.make_wordcloud(' '.join(tokens), '2.png')
+    parse_functions[index](text, tokens, lock)
 
 def main():
     """Main function"""
@@ -74,7 +83,7 @@ def main():
 
     procs = []
     lock = Lock()
-    for i in range(5):
+    for i in range(len(parse_functions)):
         proc = Process(target=parser, args=(i, lock, text, tokens))
         procs.append(proc)
         proc.start()
