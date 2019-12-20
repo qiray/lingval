@@ -28,10 +28,15 @@ def get_collocations(tokens, count=10):
     return colls
 
 def get_pos_data(tokens):
-    data = pos_tag(tokens, lang='rus')
-    counts = Counter(tag for word, tag in data)
+    result = pos_tag(tokens, lang='rus')
+    # a = dict() # TODO: update according to table from http://www.ruscorpora.ru/new/en/corpora-morph.html
+    # for word, tag in result:
+    #     a[tag] = word
+    # print(a)
+    # Example= {'A=f': 'угловой', 'S': 'конец', 'V': 'вкладывать', 'NONLEX': 'xix', 'A=m': 'властный', 'S-PRO': 'ничто', 'ADV': 'прежде', 'A-PRO=m': 'свой', 'A=n': 'низ', 'ANUM=m': 'тенистый', 'PR': 'вместо', 'INTJ': 'ах', 'INTJ=distort': 'ааа', 'A=sg': 'гостиная', 'NUM=acc': 'восемьдесят', 'PART': 'б', 'PRAEDIC': 'неловко', 'A=pl': 'единодушие', 'ADV-PRO': 'оттуда', 'ADV=comp': 'вернее', 'A-PRO=pl': 'многие', 'A': 'рад', 'PRAEDIC-PRO': 'нечего', 'NUM=nom': 'девяносто', 'A-PRO': 'каков', 'A-PRO=f': 'никакой', 'A-PRO=n': 'тогдашний', 'CONJ': 'притом', 'A=comp': 'выше', 'PARENTH': 'например', 'NUM=m': 'полтора', 'A=brev': 'неловко', 'A-PRO=sg': 'немой', 'NUM=ciph': '1877', 'ADV=abbr': 'д', 'NUM': 'пол', 'ANUM=ciph': 'xv', 'ANUM=n': 'первое', 'ADV=comp2': 'пестрый', 'ANUM=f': 'xxvii', 'NUM=gen': 'сорока'}
+    counts = Counter(tag for word, tag in result)
     total = sum(counts.values())
-    result = list((word, count, float(count)/total) for word,count in counts.items())
+    result = list((word, count, float(count)/total*100) for word,count in counts.items())
     sorted_counts = sorted(result, key=itemgetter(1), reverse=True)
     headers = ["POS", "Count", "Percentage"]
     return headers, sorted_counts

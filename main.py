@@ -50,28 +50,32 @@ def pos_data(text, tokens, lock):
 
 def sentences_data(text, tokens, lock):
     headers, data, max_sent = nltk_analyze.get_sentences_data(text)
-    lock.acquire()
+    if lock:
+        lock.acquire()
     common.print_table("\nSentences analysis\n", headers, [data])
     print ("\nLongest sentence:\n", max_sent)
-    lock.release()
+    if lock:
+        lock.release()
 
 def collocations_data(text, tokens, lock):
-    lock.acquire()
+    if lock:
+        lock.acquire()
     print("\nCollocations:\n", nltk_analyze.get_collocations(tokens))
-    lock.release()
+    if lock:
+        lock.release()
 
 def topwords_data(text, tokens, lock):
     headers, data = nltk_analyze.get_top_words(tokens)
     common.print_table("\nTop words:\n", headers, data, lock)
 
 def wordcloud_data(text, tokens, lock):
-    make_wordcloud.make_wordcloud(text, '1.png')
-    make_wordcloud.make_wordcloud(' '.join(tokens), '2.png')
+    make_wordcloud.make_wordcloud(text, 'words.png')
+    make_wordcloud.make_wordcloud(' '.join(tokens), 'lemmas.png')
 
-parse_functions = [common_data, pos_data, sentences_data, collocations_data, topwords_data, wordcloud_data]
+analyze_functions = [common_data, pos_data, sentences_data, collocations_data, topwords_data, wordcloud_data]
 
-def parser(index, lock, text, tokens):
-    parse_functions[index](text, tokens, lock)
+def worker(index, lock, text, tokens):
+    analyze_functions[index](text, tokens, lock)
 
 def main():
     """Main function"""
@@ -83,8 +87,8 @@ def main():
 
     procs = []
     lock = Lock()
-    for i in range(len(parse_functions)):
-        proc = Process(target=parser, args=(i, lock, text, tokens))
+    for i in range(len(analyze_functions)):
+        proc = Process(target=worker, args=(i, lock, text, tokens))
         procs.append(proc)
         proc.start()
     for proc in procs:
