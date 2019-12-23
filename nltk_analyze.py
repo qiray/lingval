@@ -27,14 +27,34 @@ def get_collocations(tokens, count=10):
     colls = finder.nbest(bigram_measures.likelihood_ratio, count)
     return colls
 
+pos_names = {
+    "S" : "существительное",
+    "A" : "прилагательное",
+    "NUM" : "числительное",
+    "ANUM" : "числительное-прилагательное",
+    "V" : "глагол",
+    "ADV" : "наречие",
+    "PRAEDIC" : "предикатив",
+    "PARENTH" : "вводное слово",
+    "SPRO" : "местоимение-существительное",
+    "APRO" : "местоимение-прилагательное",
+    "ADVPRO" : "местоимение-наречие",
+    "PRAEDICPRO" : "местоимение-предикатив",
+    "PR" : "предлог",
+    "CONJ" : "союз",
+    "PART" : "частица",
+    "INTJ" : "междометие",
+}
+
+def get_pos_name(pos):
+    pos = re.sub('[-=].*$', '', pos)
+    if pos in pos_names:
+        return pos_names[pos]
+    return pos
+
 def get_pos_data(tokens):
     result = pos_tag(tokens, lang='rus')
-    # a = dict() # TODO: update according to table from http://www.ruscorpora.ru/new/en/corpora-morph.html
-    # for word, tag in result:
-    #     a[tag] = word
-    # print(a)
-    # Example= {'A=f': 'угловой', 'S': 'конец', 'V': 'вкладывать', 'NONLEX': 'xix', 'A=m': 'властный', 'S-PRO': 'ничто', 'ADV': 'прежде', 'A-PRO=m': 'свой', 'A=n': 'низ', 'ANUM=m': 'тенистый', 'PR': 'вместо', 'INTJ': 'ах', 'INTJ=distort': 'ааа', 'A=sg': 'гостиная', 'NUM=acc': 'восемьдесят', 'PART': 'б', 'PRAEDIC': 'неловко', 'A=pl': 'единодушие', 'ADV-PRO': 'оттуда', 'ADV=comp': 'вернее', 'A-PRO=pl': 'многие', 'A': 'рад', 'PRAEDIC-PRO': 'нечего', 'NUM=nom': 'девяносто', 'A-PRO': 'каков', 'A-PRO=f': 'никакой', 'A-PRO=n': 'тогдашний', 'CONJ': 'притом', 'A=comp': 'выше', 'PARENTH': 'например', 'NUM=m': 'полтора', 'A=brev': 'неловко', 'A-PRO=sg': 'немой', 'NUM=ciph': '1877', 'ADV=abbr': 'д', 'NUM': 'пол', 'ANUM=ciph': 'xv', 'ANUM=n': 'первое', 'ADV=comp2': 'пестрый', 'ANUM=f': 'xxvii', 'NUM=gen': 'сорока'}
-    counts = Counter(tag for word, tag in result)
+    counts = Counter(get_pos_name(tag) for word, tag in result)
     total = sum(counts.values())
     result = list((word, count, float(count)/total*100) for word,count in counts.items())
     sorted_counts = sorted(result, key=itemgetter(1), reverse=True)

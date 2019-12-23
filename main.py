@@ -14,7 +14,6 @@ import tokenizer
 # TODO:
 # Examples
 # Save results in csv files - output folder?
-# part of speech - correct names
 # dialogs (?)
 # Sentiment analysis (?) - https://datascience.stackexchange.com/questions/10211/sentiment-retriving-from-text-russian
 # get facts?
