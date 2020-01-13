@@ -9,12 +9,12 @@ import common
 import nltk_analyze
 import make_wordcloud
 import tokenizer
+import dialogues
 
 # TODO-list
 # TODO:
 # Examples
 # Save results in csv files - output folder?
-# dialogs (?)
 # Sentiment analysis (?) - https://datascience.stackexchange.com/questions/10211/sentiment-retriving-from-text-russian
 # get facts?
 # Translations?
@@ -67,11 +67,15 @@ def topwords_data(text, tokens, lock):
     headers, data = nltk_analyze.get_top_words(tokens)
     common.print_table("\nTop words:\n", headers, data, lock)
 
+def dialogues_data(text, tokens, lock):
+    headers, data = dialogues.get_dialogues_info(text)
+    common.print_table("\nDialogues info:\n", headers, data, lock)
+
 def wordcloud_data(text, tokens, lock):
     make_wordcloud.make_wordcloud(text, 'words.png')
     make_wordcloud.make_wordcloud(' '.join(tokens), 'lemmas.png')
 
-analyze_functions = [common_data, pos_data, sentences_data, collocations_data, topwords_data, wordcloud_data]
+analyze_functions = [common_data, dialogues_data, pos_data, sentences_data, collocations_data, topwords_data, wordcloud_data]
 
 def worker(index, lock, text, tokens):
     analyze_functions[index](text, tokens, lock)
