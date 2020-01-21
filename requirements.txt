@@ -3,3 +3,5 @@ wordcloud
 stop_words
 pymystem3
 tabulate
+pybind11
+dostoevsky

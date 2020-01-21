@@ -61,8 +61,11 @@ def get_pos_data(tokens):
     headers = ["POS", "Count", "Percentage"]
     return headers, sorted_counts
 
+def get_sentences(text):
+    return sent_tokenize(text, language="russian")
+
 def get_sentences_data(text):
-    sentences = sent_tokenize(text, language="russian")
+    sentences = get_sentences(text)
     pattern = re.compile("[a-zA-Zа-яА-Я0-9_]+")
     words = [len(pattern.findall(x)) for x in sentences]
     headers = ["Sentences", "Max", "Average", "Median", "Mode"]

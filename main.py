@@ -10,12 +10,12 @@ import nltk_analyze
 import make_wordcloud
 import tokenizer
 import dialogues
+import sentiments
 
 # TODO-list
 # TODO:
 # Examples
 # Save results in csv files - output folder?
-# Sentiment analysis (?) - use Dostoevsky (https://pypi.org/project/dostoevsky/) https://datascience.stackexchange.com/questions/10211/sentiment-retriving-from-text-russian
 # get facts?
 # Translations?
 
@@ -49,19 +49,15 @@ def pos_data(text, tokens, lock):
 
 def sentences_data(text, tokens, lock):
     headers, data, max_sent = nltk_analyze.get_sentences_data(text)
-    if lock:
-        lock.acquire()
+    common.accuire_lock(lock)
     common.print_table("\nSentences analysis\n", headers, [data])
     print ("\nLongest sentence:\n", max_sent)
-    if lock:
-        lock.release()
+    common.release_lock(lock)
 
 def collocations_data(text, tokens, lock):
-    if lock:
-        lock.acquire()
+    common.accuire_lock(lock)
     print("\nCollocations:\n", nltk_analyze.get_collocations(tokens))
-    if lock:
-        lock.release()
+    common.release_lock(lock)
 
 def topwords_data(text, tokens, lock):
     headers, data = nltk_analyze.get_top_words(tokens)
@@ -75,7 +71,13 @@ def wordcloud_data(text, tokens, lock):
     make_wordcloud.make_wordcloud(text, 'words.png')
     make_wordcloud.make_wordcloud(' '.join(tokens), 'lemmas.png')
 
-analyze_functions = [common_data, dialogues_data, pos_data, sentences_data, collocations_data, topwords_data, wordcloud_data]
+def sentiment_data(text, tokens, lock):
+    common.accuire_lock(lock)
+    print("\nSentiments info:\n")
+    sentiments.analyze(nltk_analyze.get_sentences(text))
+    common.release_lock(lock)
+
+analyze_functions = [common_data, dialogues_data, pos_data, sentences_data, collocations_data, topwords_data, sentiment_data, wordcloud_data]
 
 def worker(index, lock, text, tokens):
     analyze_functions[index](text, tokens, lock)
