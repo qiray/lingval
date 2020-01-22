@@ -11,6 +11,7 @@ import make_wordcloud
 import tokenizer
 import dialogues
 import sentiments
+import translations
 
 # TODO-list
 # TODO:
@@ -84,8 +85,9 @@ def worker(index, lock, text, tokens):
 
 def main():
     """Main function"""
+    translation = translations.Translation("ru")
     if len(sys.argv) < 2:
-        print("Missing filename!")
+        print(translation.get("missing_filename"))
         sys.exit(1)
     text = read_file(sys.argv[1])
     tokens = tokenizer.preprocess_text(text, True)
