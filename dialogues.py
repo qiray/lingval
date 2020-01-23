@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import re
+import translations
 
 def get_dialogues_info(text):
     pattern = re.compile(r"\s*-.*")
@@ -16,4 +17,4 @@ def get_dialogues_info(text):
         if (not line.isspace()):
             total_count += 1
             total_len += len(line)
-    return ["Dialogues, %"], [[float(dialogues_len)/total_len*100]]
+    return [("%s, %%" % translations.get("dialogues"))], [[float(dialogues_len)/total_len*100]]

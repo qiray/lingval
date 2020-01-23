@@ -8,6 +8,8 @@ from operator import itemgetter
 import tabulate
 from nltk import word_tokenize, sent_tokenize, collocations, pos_tag
 
+import translations
+
 def get_common_data(text):
     # return lines, sentences, words, symbols without spaces, symbols
     headers = ["Lines", "Sentences", "Words", "Unique words", "Symbols without spaces", "Total symbols"]

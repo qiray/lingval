@@ -33,7 +33,7 @@ def check_nltk_package(findname, downloadname):
     try:
         nltk.data.find(findname)
     except LookupError:
-        print("Downloading NLTK data. Please wait.")
+        print(translations.get("nltk_downloading"))
         nltk.download(downloadname)
 
 def read_file(filename):
@@ -42,31 +42,31 @@ def read_file(filename):
 
 def common_data(text, tokens, lock):
     headers, data = nltk_analyze.get_common_data(text)
-    common.print_table("\nCommon data:\n", headers, [data], lock)
+    common.print_table(("\n%s\n" % translations.get("common_data")), headers, [data], lock)
 
 def pos_data(text, tokens, lock):
     headers, data = nltk_analyze.get_pos_data(tokens)
-    common.print_table("\nPOS analysis\n", headers, data, lock)
+    common.print_table(("\n%s\n" % translations.get("POS_analysis")), headers, data, lock)
 
 def sentences_data(text, tokens, lock):
     headers, data, max_sent = nltk_analyze.get_sentences_data(text)
     common.accuire_lock(lock)
-    common.print_table("\nSentences analysis\n", headers, [data])
-    print ("\nLongest sentence:\n", max_sent)
+    common.print_table(("\n%s\n" % translations.get("sentences_analysis")), headers, [data])
+    print (("\n%s\n" % translations.get("longest_sentence")), max_sent)
     common.release_lock(lock)
 
 def collocations_data(text, tokens, lock):
     common.accuire_lock(lock)
-    print("\nCollocations:\n", nltk_analyze.get_collocations(tokens))
+    print(("\n%s\n" % translations.get("collocations")), nltk_analyze.get_collocations(tokens))
     common.release_lock(lock)
 
 def topwords_data(text, tokens, lock):
     headers, data = nltk_analyze.get_top_words(tokens)
-    common.print_table("\nTop words:\n", headers, data, lock)
+    common.print_table(("\n%s\n" % translations.get("top_words")), headers, data, lock)
 
 def dialogues_data(text, tokens, lock):
     headers, data = dialogues.get_dialogues_info(text)
-    common.print_table("\nDialogues info:\n", headers, data, lock)
+    common.print_table(("\n%s\n" % translations.get("dialogues_info")), headers, data, lock)
 
 def wordcloud_data(text, tokens, lock):
     make_wordcloud.make_wordcloud(text, 'words.png')
@@ -74,7 +74,7 @@ def wordcloud_data(text, tokens, lock):
 
 def sentiment_data(text, tokens, lock):
     common.accuire_lock(lock)
-    print("\nSentiments info:\n")
+    print(("\n%s\n" % translations.get("sentiments_info")))
     sentiments.analyze(nltk_analyze.get_sentences(text))
     common.release_lock(lock)
 
@@ -85,9 +85,9 @@ def worker(index, lock, text, tokens):
 
 def main():
     """Main function"""
-    translation = translations.Translation("ru")
+    translations.set_locale("ru") #TODO: use locales from argparse
     if len(sys.argv) < 2:
-        print(translation.get("missing_filename"))
+        print(translations.get("missing_filename"))
         sys.exit(1)
     text = read_file(sys.argv[1])
     tokens = tokenizer.preprocess_text(text, True)

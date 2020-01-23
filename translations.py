@@ -3,9 +3,31 @@
 data = {
     "ru": {
         "missing_filename": "Отсутствует файл!",
+        "nltk_downloading": "Загружаю данные NLTK. Пожалуйста, подождите.",
+        "dialogues": "Диалоги",
+        "common_data": "Общие данные:",
+        "POS_analysis": "Анализ частей речи",
+        "sentences_analysis": "Анализ предложений",
+        "longest_sentence": "Самое длинное предложение:",
+        "collocations": "Словосочетания:",
+        "top_words": "Топ слова:",
+        "dialogues_info": "Информация о диалогах:",
+        "sentiments_info": "Информация о настроении:",
+        "wordcloud_nodata": "Внимание! Нет данных для облака слов"
     },
     "en": {
         "missing_filename": "Missing filename!",
+        "nltk_downloading": "Downloading NLTK data. Please wait.",
+        "dialogues": "Dialogues",
+        "common_data": "Common data:",
+        "POS_analysis": "POS analysis",
+        "sentences_analysis": "Sentences analysis",
+        "longest_sentence": "Longest sentence:",
+        "collocations": "Collocations:",
+        "top_words": "Top words:",
+        "dialogues_info": "Dialogues info:",
+        "sentiments_info": "Sentiments info:",
+        "wordcloud_nodata": "Warning! No data for wordcloud"
     }
 }
 default_lang = "en"
@@ -31,3 +53,11 @@ class Translation():
         if not key in self.data:
             return key
         return self.data[key]
+
+translation = Translation()
+
+def set_locale(lang):
+    translation.set_locale(lang)
+
+def get(key):
+    return translation.get(key)
