@@ -5,3 +5,4 @@ pymystem3
 tabulate
 pybind11
 dostoevsky
+argparse

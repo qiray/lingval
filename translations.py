@@ -13,7 +13,22 @@ data = {
         "top_words": "Топ слова:",
         "dialogues_info": "Информация о диалогах:",
         "sentiments_info": "Информация о настроении:",
-        "wordcloud_nodata": "Внимание! Нет данных для облака слов"
+        "wordcloud_nodata": "Внимание! Нет данных для облака слов",
+
+        "lines": "Строки",
+        "sentences": "Предложения",
+        "words": "Слова",
+        "unique_words": "Уникальные слова",
+        "symbols_without_space": "Символы без пробелов",
+        "total_symbols": "Всего символов",
+        "word": "Слово",
+        "count": "Количество",
+        "POS": "Часть речи",
+        "percentage": "Процент",
+        "max": "Максимум",
+        "average": "Среднее",
+        "median": "Медиана",
+        "mode": "Мода",
     },
     "en": {
         "missing_filename": "Missing filename!",
@@ -27,9 +42,25 @@ data = {
         "top_words": "Top words:",
         "dialogues_info": "Dialogues info:",
         "sentiments_info": "Sentiments info:",
-        "wordcloud_nodata": "Warning! No data for wordcloud"
+        "wordcloud_nodata": "Warning! No data for wordcloud",
+
+        "lines": "Lines",
+        "sentences": "Sentences",
+        "words": "Words",
+        "unique_words": "Unique words",
+        "symbols_without_space": "Symbols without spaces",
+        "total_symbols": "Total symbols",
+        "word": "Word",
+        "count": "Count",
+        "POS": "POS",
+        "percentage": "Percentage",
+        "max": "Max",
+        "average": "Average",
+        "median": "Median",
+        "mode": "Mode",
     }
 }
+
 default_lang = "en"
 
 class Translation():

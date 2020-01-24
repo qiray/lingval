@@ -3,6 +3,7 @@
 import sys
 from multiprocessing import Process, Lock
 
+import argparse
 import nltk
 
 import common
@@ -18,13 +19,13 @@ import translations
 # Examples
 # Save results in csv files - output folder?
 # get facts?
-# Translations?
 
 # https://proglib.io/p/fun-nlp
 # https://en.wikipedia.org/wiki/Bag-of-words_model
 # https://monkeylearn.com/text-analysis/
 # https://en.wikipedia.org/wiki/Natural_language_processing
 
+APP_NAME="Lingval"
 VERSION_MAJOR = 0
 VERSION_MINOR = 0
 VERSION_BUILD = 1
@@ -83,13 +84,36 @@ analyze_functions = [common_data, dialogues_data, pos_data, sentences_data, coll
 def worker(index, lock, text, tokens):
     analyze_functions[index](text, tokens, lock)
 
+def get_version():
+    return "%d.%d.%d" % (VERSION_MAJOR, VERSION_MINOR, VERSION_BUILD)
+
+def get_about_info():
+    return ("\n" + APP_NAME + " " + get_version() + " Copyright (C) 2019-2020 Yaroslav Zotov.\n" +
+        "This program comes with ABSOLUTELY NO WARRANTY.\n" +
+        "This is free software under MIT license; see the LICENSE file for copying conditions.\n")
+
+def parse_args():
+    """argparse settings"""
+    parser = argparse.ArgumentParser(prog=APP_NAME, 
+        description='Tool for analyzing Russian fiction texts.')
+    parser.add_argument('--file', type=str, help='File for analyze')
+    parser.add_argument('--lang', type=str, help='Set locale')
+    parser.add_argument('--about', action='store_true', help='Show about info')
+    return parser.parse_args()
+
 def main():
     """Main function"""
-    translations.set_locale("ru") #TODO: use locales from argparse
-    if len(sys.argv) < 2:
+    args = parse_args()
+    if args.about:
+        print(get_about_info())
+        return
+    if not args.file:
         print(translations.get("missing_filename"))
         sys.exit(1)
-    text = read_file(sys.argv[1])
+    if args.lang:
+        translations.set_locale(args.lang)
+
+    text = read_file(args.file)
     tokens = tokenizer.preprocess_text(text, True)
 
     procs = []

@@ -12,13 +12,23 @@ import translations
 
 def get_common_data(text):
     # return lines, sentences, words, symbols without spaces, symbols
-    headers = ["Lines", "Sentences", "Words", "Unique words", "Symbols without spaces", "Total symbols"]
+    headers = [
+        translations.get("lines"),
+        translations.get("sentences"),
+        translations.get("words"),
+        translations.get("unique_words"),
+        translations.get("symbols_without_space"),
+        translations.get("total_symbols")
+    ]
     words = word_tokenize(text, language="russian")
     return headers, [len(text.split('\n')), len(sent_tokenize(text, language="russian")), len(words), len(set(words)), len(text) - text.count(' '), len(text)]
 
 def get_top_words(words, top_count=20):
     sorted_words_data = sorted(Counter(words).items(), key=lambda kv: kv[1], reverse=True)
-    headers = ["Word", "Count"]
+    headers = [
+        translations.get("word"),
+        translations.get("count")
+    ]
     return headers, sorted_words_data[:top_count] #list of tuples of top words
 
 def get_collocations(tokens, count=10):
@@ -60,7 +70,11 @@ def get_pos_data(tokens):
     total = sum(counts.values())
     result = list((word, count, float(count)/total*100) for word,count in counts.items())
     sorted_counts = sorted(result, key=itemgetter(1), reverse=True)
-    headers = ["POS", "Count", "Percentage"]
+    headers = [
+        translations.get("POS"),
+        translations.get("count"),
+        translations.get("percentage")
+    ]
     return headers, sorted_counts
 
 def get_sentences(text):
@@ -70,7 +84,13 @@ def get_sentences_data(text):
     sentences = get_sentences(text)
     pattern = re.compile("[a-zA-Zа-яА-Я0-9_]+")
     words = [len(pattern.findall(x)) for x in sentences]
-    headers = ["Sentences", "Max", "Average", "Median", "Mode"]
+    headers = [
+        translations.get("sentences"),
+        translations.get("max"),
+        translations.get("average"),
+        translations.get("median"),
+        translations.get("mode"),
+    ]
     max_words = max(words)
     max_sent = sentences[words.index(max_words)]
     try:
