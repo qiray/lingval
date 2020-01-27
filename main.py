@@ -7,6 +7,7 @@ import argparse
 import nltk
 
 import common
+import fileio
 import nltk_analyze
 import make_wordcloud
 import tokenizer
@@ -16,14 +17,9 @@ import translations
 
 # TODO-list
 # TODO:
+# Write readme
 # Examples
-# Save results in csv files - output folder?
-# get facts?
-
-# https://proglib.io/p/fun-nlp
-# https://en.wikipedia.org/wiki/Bag-of-words_model
-# https://monkeylearn.com/text-analysis/
-# https://en.wikipedia.org/wiki/Natural_language_processing
+# Save results in csv files - collocations & sentiments
 
 APP_NAME="Lingval"
 VERSION_MAJOR = 0
@@ -38,42 +34,51 @@ def check_nltk_package(findname, downloadname):
         nltk.download(downloadname)
 
 def read_file(filename):
-    with open(filename, 'r', encoding='utf-8') as myfile:
-        return myfile.read()
+    try:
+        with open(filename, 'r', encoding='utf-8') as myfile:
+            return myfile.read()
+    except IOError:
+        print(translations.get("file_not_found"))
+        sys.exit(2)
 
-def common_data(text, tokens, lock):
+def common_data(dirname, text, tokens, lock):
     headers, data = nltk_analyze.get_common_data(text)
+    fileio.write_csv(dirname, "common_data", headers, [data])
     common.print_table(("\n%s\n" % translations.get("common_data")), headers, [data], lock)
 
-def pos_data(text, tokens, lock):
+def pos_data(dirname, text, tokens, lock):
     headers, data = nltk_analyze.get_pos_data(tokens)
+    fileio.write_csv(dirname, "pos_data", headers, data)
     common.print_table(("\n%s\n" % translations.get("POS_analysis")), headers, data, lock)
 
-def sentences_data(text, tokens, lock):
+def sentences_data(dirname, text, tokens, lock):
     headers, data, max_sent = nltk_analyze.get_sentences_data(text)
+    fileio.write_csv(dirname, "sentences_data", headers, [data])
     common.accuire_lock(lock)
     common.print_table(("\n%s\n" % translations.get("sentences_analysis")), headers, [data])
     print (("\n%s\n" % translations.get("longest_sentence")), max_sent)
     common.release_lock(lock)
 
-def collocations_data(text, tokens, lock):
+def collocations_data(dirname, text, tokens, lock):
     common.accuire_lock(lock)
     print(("\n%s\n" % translations.get("collocations")), nltk_analyze.get_collocations(tokens))
     common.release_lock(lock)
 
-def topwords_data(text, tokens, lock):
+def topwords_data(dirname, text, tokens, lock):
     headers, data = nltk_analyze.get_top_words(tokens)
+    fileio.write_csv(dirname, "topwords_data", headers, data)
     common.print_table(("\n%s\n" % translations.get("top_words")), headers, data, lock)
 
-def dialogues_data(text, tokens, lock):
+def dialogues_data(dirname, text, tokens, lock):
     headers, data = dialogues.get_dialogues_info(text)
+    fileio.write_csv(dirname, "dialogues_info", headers, data)
     common.print_table(("\n%s\n" % translations.get("dialogues_info")), headers, data, lock)
 
-def wordcloud_data(text, tokens, lock):
-    make_wordcloud.make_wordcloud(text, 'words.png')
-    make_wordcloud.make_wordcloud(' '.join(tokens), 'lemmas.png')
+def wordcloud_data(dirname, text, tokens, lock):
+    make_wordcloud.make_wordcloud(text, dirname + 'words.png')
+    make_wordcloud.make_wordcloud(' '.join(tokens), dirname + 'lemmas.png')
 
-def sentiment_data(text, tokens, lock):
+def sentiment_data(dirname, text, tokens, lock):
     common.accuire_lock(lock)
     print(("\n%s\n" % translations.get("sentiments_info")))
     sentiments.analyze(nltk_analyze.get_sentences(text))
@@ -81,8 +86,8 @@ def sentiment_data(text, tokens, lock):
 
 analyze_functions = [common_data, dialogues_data, pos_data, sentences_data, collocations_data, topwords_data, sentiment_data, wordcloud_data]
 
-def worker(index, lock, text, tokens):
-    analyze_functions[index](text, tokens, lock)
+def worker(index, dirname, lock, text, tokens):
+    analyze_functions[index](dirname, text, tokens, lock)
 
 def get_version():
     return "%d.%d.%d" % (VERSION_MAJOR, VERSION_MINOR, VERSION_BUILD)
@@ -115,11 +120,14 @@ def main():
 
     text = read_file(args.file)
     tokens = tokenizer.preprocess_text(text, True)
+    basename = fileio.get_basename(args.file)
+    dirname = fileio.get_output_path(basename)
+    fileio.prepare_output(basename)
 
     procs = []
     lock = Lock()
     for i in range(len(analyze_functions)):
-        proc = Process(target=worker, args=(i, lock, text, tokens))
+        proc = Process(target=worker, args=(i, dirname, lock, text, tokens))
         procs.append(proc)
         proc.start()
     for proc in procs:

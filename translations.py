@@ -3,6 +3,7 @@
 data = {
     "ru": {
         "missing_filename": "Отсутствует файл!",
+        "file_not_found": "Файл не найден!",
         "nltk_downloading": "Загружаю данные NLTK. Пожалуйста, подождите.",
         "dialogues": "Диалоги",
         "common_data": "Общие данные:",
@@ -32,6 +33,7 @@ data = {
     },
     "en": {
         "missing_filename": "Missing filename!",
+        "file_not_found": "File not found!",
         "nltk_downloading": "Downloading NLTK data. Please wait.",
         "dialogues": "Dialogues",
         "common_data": "Common data:",
