@@ -14,6 +14,7 @@ data = {
         "top_words": "Топ слова:",
         "dialogues_info": "Информация о диалогах:",
         "sentiments_info": "Информация о настроении:",
+        "sentiment": "Настроение",
         "wordcloud_nodata": "Внимание! Нет данных для облака слов",
 
         "lines": "Строки",
@@ -44,6 +45,7 @@ data = {
         "top_words": "Top words:",
         "dialogues_info": "Dialogues info:",
         "sentiments_info": "Sentiments info:",
+        "sentiment": "Sentiment",
         "wordcloud_nodata": "Warning! No data for wordcloud",
 
         "lines": "Lines",

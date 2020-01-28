@@ -30,4 +30,6 @@ def analyze(sentences):
             if k not in result:
                 result[k] = 0
             result[k] += sentiment[k]
-    print(result)
+    total = sum(result.values())
+    result = {k: v / total for k, v in result.items()}
+    return result

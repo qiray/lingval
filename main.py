@@ -19,7 +19,6 @@ import translations
 # TODO:
 # Write readme
 # Examples
-# Save results in csv files - collocations & sentiments
 
 APP_NAME="Lingval"
 VERSION_MAJOR = 0
@@ -60,8 +59,10 @@ def sentences_data(dirname, text, tokens, lock):
     common.release_lock(lock)
 
 def collocations_data(dirname, text, tokens, lock):
+    data = nltk_analyze.get_collocations(tokens)
+    fileio.write_csv(dirname, "collocations", [translations.get("word") + " 1", translations.get("word") + " 2"], data)
     common.accuire_lock(lock)
-    print(("\n%s\n" % translations.get("collocations")), nltk_analyze.get_collocations(tokens))
+    print(("\n%s\n" % translations.get("collocations")), data)
     common.release_lock(lock)
 
 def topwords_data(dirname, text, tokens, lock):
@@ -79,9 +80,11 @@ def wordcloud_data(dirname, text, tokens, lock):
     make_wordcloud.make_wordcloud(' '.join(tokens), dirname + 'lemmas.png')
 
 def sentiment_data(dirname, text, tokens, lock):
+    data = sentiments.analyze(nltk_analyze.get_sentences(text))
+    fileio.write_csv(dirname, "sentiments", [translations.get("sentiment"), translations.get("percentage")], [[k, data[k]] for k in data])
     common.accuire_lock(lock)
-    print(("\n%s\n" % translations.get("sentiments_info")))
-    sentiments.analyze(nltk_analyze.get_sentences(text))
+    print(("\n%s" % translations.get("sentiments_info")))
+    print(data)
     common.release_lock(lock)
 
 analyze_functions = [common_data, dialogues_data, pos_data, sentences_data, collocations_data, topwords_data, sentiment_data, wordcloud_data]
