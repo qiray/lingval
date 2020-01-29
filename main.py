@@ -19,11 +19,12 @@ import translations
 # TODO:
 # Write readme
 # Examples
+# Topics. Maybe LDA (?)
 
-APP_NAME="Lingval"
-VERSION_MAJOR = 0
+APP_NAME="lingval"
+VERSION_MAJOR = 1
 VERSION_MINOR = 0
-VERSION_BUILD = 1
+VERSION_BUILD = 0
 
 def check_nltk_package(findname, downloadname):
     try:
@@ -53,6 +54,7 @@ def pos_data(dirname, text, tokens, lock):
 def sentences_data(dirname, text, tokens, lock):
     headers, data, max_sent = nltk_analyze.get_sentences_data(text)
     fileio.write_csv(dirname, "sentences_data", headers, [data])
+    fileio.write_file(dirname, "longest_sentence", max_sent)
     common.accuire_lock(lock)
     common.print_table(("\n%s\n" % translations.get("sentences_analysis")), headers, [data])
     print (("\n%s\n" % translations.get("longest_sentence")), max_sent)

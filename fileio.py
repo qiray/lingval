@@ -27,3 +27,8 @@ def write_csv(path, name, headers, data):
     for line in data:
         f.write(";".join(str(x) for x in line) + '\n')
     f.close()
+
+def write_file(path, name, data):
+    f = open(path + "%s.txt" % (name), "w", encoding="utf-8")
+    f.write(data)
+    f.close()
