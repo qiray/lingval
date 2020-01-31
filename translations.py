@@ -31,6 +31,8 @@ data = {
         "average": "Среднее",
         "median": "Медиана",
         "mode": "Мода",
+        "locale_not_supported": "Язык не поддерживается",
+        "supported_locales": "Поддерживаемые языки",
     },
     "en": {
         "missing_filename": "Missing filename!",
@@ -62,6 +64,8 @@ data = {
         "average": "Average",
         "median": "Median",
         "mode": "Mode",
+        "locale_not_supported": "Locale not supported",
+        "supported_locales": "Supported locales",
     }
 }
 
@@ -80,6 +84,9 @@ class Translation():
 
     def set_locale(self, lang):
         if not lang in data:
+            print(self.get("locale_not_supported") + ": " + lang)
+            locales = ', '.join(data.keys())
+            print(self.get("supported_locales") + ": " + locales)
             lang = default_lang
         self.lang = lang
         self.data = data[lang]

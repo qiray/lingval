@@ -17,7 +17,6 @@ import translations
 
 # TODO-list
 # TODO:
-# Write readme
 # Examples
 # Topics. Maybe LDA (?)
 
