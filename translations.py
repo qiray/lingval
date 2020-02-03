@@ -17,7 +17,7 @@ data = {
         "sentiment": "Настроение",
         "wordcloud_nodata": "Внимание! Нет данных для облака слов",
 
-        "lines": "Строки",
+        "paragraphs": "Параграфы",
         "sentences": "Предложения",
         "words": "Слова",
         "unique_words": "Уникальные слова",
@@ -50,7 +50,7 @@ data = {
         "sentiment": "Sentiment",
         "wordcloud_nodata": "Warning! No data for wordcloud",
 
-        "lines": "Lines",
+        "paragraphs": "Paragraphs",
         "sentences": "Sentences",
         "words": "Words",
         "unique_words": "Unique words",

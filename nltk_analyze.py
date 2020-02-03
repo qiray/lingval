@@ -21,7 +21,9 @@ def get_common_data(text):
         translations.get("total_symbols")
     ]
     words = word_tokenize(text, language="russian")
-    return headers, [len(text.split('\n')), len(sent_tokenize(text, language="russian")), len(words), len(set(words)), len(text) - text.count(' '), len(text)]
+    lines = text.split('\n')
+    lines_count = len([x for x in lines if x and not x.isspace()])
+    return headers, [lines_count, len(sent_tokenize(text, language="russian")), len(words), len(set(words)), len(text) - text.count(' '), len(text)]
 
 def get_top_words(words, top_count=20):
     sorted_words_data = sorted(Counter(words).items(), key=lambda kv: kv[1], reverse=True)

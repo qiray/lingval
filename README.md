@@ -1,6 +1,6 @@
 # lingval
 
-Tool for making Russian text analysis - lines, sentences and words count, word clouds, dialogues percentage, sentiment and POS analysis and even more.
+Tool for making Russian text analysis - paragraphs, sentences and words count, word clouds, dialogues percentage, sentiment and POS analysis and even more.
 
 ## Requirements
 
@@ -47,7 +47,7 @@ python3 main.py --file text.txt --lang ru
 When completed there will be a folder named "output/text" containing these files:
 
 - **collocations.csv** - 10 top collocations;
-- **common_data.csv** - lines, sentences, words and symbols count;
+- **common_data.csv** - paragraphs, sentences, words and symbols count;
 - **dialogues_info.csv** - dialogues percentage;
 - **pos_data.csv** - POS count and percentage;
 - **sentences_data.csv** - sentences count, max, average, median and mode lengths;
@@ -59,7 +59,7 @@ When completed there will be a folder named "output/text" containing these files
 
 ## Examples
 
-<!-- TODO: write some examples -->
+<!-- TODO: write some examples: Каренина, "Преступление и наказание" и что-нибудь из современного -->
 
 ## Credits
 
