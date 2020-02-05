@@ -11,9 +11,9 @@ from nltk import word_tokenize, sent_tokenize, collocations, pos_tag
 import translations
 
 def get_common_data(text):
-    # return lines, sentences, words, symbols without spaces, symbols
+    ''' return paragraphs, sentences, words, symbols without spaces, symbols '''
     headers = [
-        translations.get("lines"),
+        translations.get("paragraphs"),
         translations.get("sentences"),
         translations.get("words"),
         translations.get("unique_words"),

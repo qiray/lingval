@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import sys
+import operator
 from multiprocessing import Process, Lock
 
 import argparse
@@ -82,6 +83,7 @@ def wordcloud_data(dirname, text, tokens, lock):
 
 def sentiment_data(dirname, text, tokens, lock):
     data = sentiments.analyze(nltk_analyze.get_sentences(text))
+    data = dict(sorted(data.items(), key=operator.itemgetter(1), reverse=True))
     fileio.write_csv(dirname, "sentiments", [translations.get("sentiment"), translations.get("percentage")], [[k, data[k]] for k in data])
     common.accuire_lock(lock)
     print(("\n%s" % translations.get("sentiments_info")))
