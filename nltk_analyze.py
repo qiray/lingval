@@ -23,7 +23,7 @@ def get_common_data(text):
     words = word_tokenize(text, language="russian")
     lines = text.split('\n')
     lines_count = len([x for x in lines if x and not x.isspace()])
-    return headers, [lines_count, len(sent_tokenize(text, language="russian")), len(words), len(set(words)), len(text) - text.count(' '), len(text)]
+    return headers, [lines_count, len(get_sentences(text)), len(words), len(set(words)), len(text) - text.count(' '), len(text)]
 
 def get_top_words(words, top_count=20):
     sorted_words_data = sorted(Counter(words).items(), key=lambda kv: kv[1], reverse=True)
@@ -80,7 +80,12 @@ def get_pos_data(tokens):
     return headers, sorted_counts
 
 def get_sentences(text):
-    return sent_tokenize(text, language="russian")
+    paragraphs = [p for p in text.split('\n') if p]
+    result = []
+    for paragraph in paragraphs:
+        result += sent_tokenize(paragraph, language="russian")
+    # sentences = sent_tokenize(text, language="russian")
+    return result
 
 def get_sentences_data(text):
     sentences = get_sentences(text)

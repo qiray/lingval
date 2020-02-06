@@ -12,6 +12,8 @@ It also needs some extra libraries (see file [requirements.txt](requirements.txt
 pip3 install -r requirements.txt --user
 ```
 
+On some systems you should also install *python3-dev* package.
+
 ## Usage
 
 It's a console tool. You can run it using these commands:
@@ -44,6 +46,8 @@ python main.py --file text.txt --lang ru
 python3 main.py --file text.txt --lang ru
 ```
 
+Files must be in **UTF-8** encoding.
+
 When completed there will be a folder named "output/text" containing these files:
 
 - **collocations.csv** - 10 top collocations;
@@ -59,7 +63,7 @@ When completed there will be a folder named "output/text" containing these files
 
 ## Examples
 
-<!-- TODO: write some examples: Каренина, "Преступление и наказание" и что-нибудь из современного -->
+<!-- TODO: write some examples: Каренина, "Преступление и наказание" и "Обитаемый остров" -->
 
 ## Credits
 

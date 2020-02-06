@@ -4,7 +4,7 @@ import re
 import translations
 
 def get_dialogues_info(text):
-    pattern = re.compile(r"\s*-.*")
+    pattern = re.compile(r"\s*[-—].*")
     lines = text.splitlines()
     dialogues_count = 0
     dialogues_len = 0

@@ -33,6 +33,7 @@ data = {
         "mode": "Мода",
         "locale_not_supported": "Язык не поддерживается",
         "supported_locales": "Поддерживаемые языки",
+        "bad_encoding": "Неверная кодировка",
     },
     "en": {
         "missing_filename": "Missing filename!",
@@ -66,6 +67,7 @@ data = {
         "mode": "Mode",
         "locale_not_supported": "Locale not supported",
         "supported_locales": "Supported locales",
+        "bad_encoding": "Bad encoding",
     }
 }
 

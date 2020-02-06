@@ -40,6 +40,9 @@ def read_file(filename):
     except IOError:
         print(translations.get("file_not_found"))
         sys.exit(2)
+    except UnicodeDecodeError:
+        print(translations.get("bad_encoding"))
+        sys.exit(3)
 
 def common_data(dirname, text, tokens, lock):
     headers, data = nltk_analyze.get_common_data(text)
