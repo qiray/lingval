@@ -63,7 +63,15 @@ When completed there will be a folder named "output/text" containing these files
 
 ## Examples
 
-<!-- TODO: write some examples: Каренина, "Преступление и наказание" и "Обитаемый остров" -->
+Here are some lingval results (in Russian):
+
+- [Anna Karenina by Leo Tolstoy](examples/Karenina.md);
+
+- [Crime and Punishment by Fyodor Dostoevsky](examples/CrimeAndPunishment.md);
+
+- [Prisoners of Power, also known as Inhabited Island by Arkady and Boris Strugatsky](examples/InhabitedIsland.md);
+
+- and [their comparison](examples/common.md).
 
 ## Credits
 
