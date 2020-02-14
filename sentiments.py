@@ -31,5 +31,5 @@ def analyze(sentences):
                 result[k] = 0
             result[k] += sentiment[k]
     total = sum(result.values())
-    result = {k: v / total for k, v in result.items()}
+    result = {k: v / total*100 for k, v in result.items()}
     return result

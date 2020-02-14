@@ -84,7 +84,6 @@ def get_sentences(text):
     result = []
     for paragraph in paragraphs:
         result += sent_tokenize(paragraph, language="russian")
-    # sentences = sent_tokenize(text, language="russian")
     return result
 
 def get_sentences_data(text):

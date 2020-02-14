@@ -18,7 +18,6 @@ import translations
 
 # TODO-list
 # TODO:
-# Examples
 # Topics. Maybe LDA (?)
 
 APP_NAME="lingval"
